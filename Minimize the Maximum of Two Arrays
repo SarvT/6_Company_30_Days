@@ -1,0 +1,12 @@
+class Solution {
+public:
+    int minimizeSet(int divisor1, int divisor2, int uniqueCnt1, int uniqueCnt2) {
+        long l = INT_MIN, h = INT_MAX, mul = lcm((long) divisor1, divisor2); 
+		while (l < h) {
+			int mid = l + (h-l)/2; 
+			if (uniqueCnt1 <= mid-mid/divisor1 && uniqueCnt2 <= mid-mid/divisor2 && uniqueCnt1+uniqueCnt2 <= mid-mid/mul) h = mid; 
+			else l = mid+1; 
+		}
+		return l;
+    }
+};
