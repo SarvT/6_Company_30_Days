@@ -1,0 +1,18 @@
+class Solution {
+public:
+        long long dp[3003][1001];
+        int m=1000000007;
+    int rec(int startPos,int endPos,int k){
+        if(!k) return dp[startPos][k]=(startPos==(endPos+1001));
+        if(dp[startPos][k]!=-1) return dp[startPos][k];
+        long long a=0,b=0;
+        a=rec(startPos-1,endPos,k-1);
+        b=rec(startPos+1,endPos,k-1);
+        return dp[startPos][k]=((a%m+b%m)%m);
+    }
+    int numberOfWays(int startPos, int endPos, int k) {
+        memset(dp,-1,sizeof(dp));
+        return rec(startPos+1001,endPos,k);
+    }
+    
+};
