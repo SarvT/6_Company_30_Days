@@ -1,0 +1,39 @@
+class Solution {
+public:
+long long obscuredResult;
+
+    bool checkPalindrome(string &str) {
+        int start = 0, end = str.size() - 1;
+        while (start < end) {
+            if (str[start] != str[end]) return false;
+            start++;
+            end--;
+        }
+        return true;
+    }
+
+    void scramble(string input, int index, string &firstHalf, string &secondHalf) {
+        if (index >= input.size()) {
+            if (checkPalindrome(firstHalf) && checkPalindrome(secondHalf)) {
+                long long value = firstHalf.size() * secondHalf.size();
+                obscuredResult = max(value, obscuredResult);
+            }
+            return;
+        }
+
+        firstHalf.push_back(input[index]);
+        scramble(input, index + 1, firstHalf, secondHalf);
+        firstHalf.pop_back();
+
+        secondHalf.push_back(input[index]);
+        scramble(input, index + 1, firstHalf, secondHalf);
+        secondHalf.pop_back();
+
+        scramble(input, index + 1, firstHalf, secondHalf);
+    }
+    int maxProduct(string s) {
+        string firstHalf = "", secondHalf = "";
+        scramble(s, 0, firstHalf, secondHalf);
+        return obscuredResult;
+    }
+};
