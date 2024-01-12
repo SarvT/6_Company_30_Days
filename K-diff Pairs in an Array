@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int findPairs(vector<int>& nums, int k) {
+        sort(nums.begin(), nums.end());
+        int cnt=0, n=nums.size();
+        int b=0, f=1;
+
+
+        while(f<n){
+            int maxi = max(nums[f], nums[b]);
+            int mini = min(nums[f], nums[b]);
+            if((maxi-mini)==k) {
+                cnt++;
+                f++;
+                b++;
+                while (f < n && nums[f] == nums[f - 1])f++;
+            }
+            else if(b+1 != f && (maxi-mini)>k) b++;
+            else f++;
+        }
+        return cnt;
+    }
+};
