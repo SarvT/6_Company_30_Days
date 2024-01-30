@@ -1,0 +1,36 @@
+class Solution {
+public:int M, N, dirs[4][2] = {{0,1},{0,-1},{1,0},{-1,0}};
+    void dfs(vector<vector<int>> &grid, int i, int j,vector<vector<int>> &seen) {
+        seen[i][j] = true;
+        for (auto &[dx, dy] : dirs) {
+            int x = dx + i, y = dy + j;
+            if (x < 0 || x >= M || y < 0 || y >= N || grid[x][y] != 1 || seen[x][y]) continue;
+            dfs(grid, x, y, seen);
+        }
+    }
+    bool disconnected(vector<vector<int>> &grid) {
+        vector<vector<int>> seen(M, vector<int>(N, false));
+        int cnt = 0;
+        for (int i = 0; i < M; ++i) {
+            for (int j = 0; j < N; ++j) {
+                if (grid[i][j] != 1 || seen[i][j]) continue;
+                if (++cnt > 1) return true;
+                dfs(grid, i, j, seen);
+            }
+        }
+        return cnt == 0;
+    }
+    int minDays(vector<vector<int>>& grid) {
+        M = grid.size(), N = grid[0].size();
+        if (disconnected(grid)) return 0;
+        for (int i = 0; i < M; ++i) {
+            for (int j = 0; j < N; ++j) {
+                if (grid[i][j] != 1) continue;
+                grid[i][j] = 0;
+                if (disconnected(grid)) return 1;
+                grid[i][j] = 1;
+            }
+        }
+        return 2;
+    }
+};
